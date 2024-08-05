@@ -12,7 +12,7 @@ export const motionBlocks = [
     ],
     previousStatement: true,
     nextStatement: true,
-    colour: "#0088ff",
+    colour: "#4d97fe",
   },
   {
     type: "clockwise",

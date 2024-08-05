@@ -144,8 +144,8 @@ export default function PreviewArea() {
 
 
 
-  useEffect(() => {
 
+  useEffect(() => {
     const handleMouseMove = throttle((event) => {
       mousePositionRef.current = { x: event.clientX, y: event.clientY };
     }, 200);
