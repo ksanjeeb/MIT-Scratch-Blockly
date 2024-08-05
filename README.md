@@ -43,7 +43,8 @@ Ensure you have the following installed:
   npm run dev
   ```
 
-### Your server will be up an running at localhost:5173
+### Your server will be up and running at localhost:5173
+
 
 For questions or feedback, please reach out at code.sanjeeb@gmail.com.
 
