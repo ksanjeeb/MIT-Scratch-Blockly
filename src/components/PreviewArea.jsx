@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useCallback } from 'react';
 import CatSprite from './CatSprite';
 import Draggable from 'react-draggable';
-import { Flag, RotateCcw, Undo2Icon } from 'lucide-react';
+import { Flag, Github, RotateCcw, Undo2Icon } from 'lucide-react';
 import { GlobalContext } from '../App';
 
 export default function PreviewArea() {
@@ -156,16 +156,19 @@ export default function PreviewArea() {
   return (
     <div className="flex-none w-full">
       <div className="flex flex-row p-4 gap-4 justify-end pr-6">
-        <div onClick={() => startAnimation("when_flag_clicked")} title={"Run"} className={`cursor-pointer ${playing ? "pointer-events-none" : ""}`}>
+        <div onClick={() => startAnimation("when_flag_clicked")} title={"Run"} className={`cursor-pointer self-center ${playing ? "pointer-events-none" : ""}`}>
           <Flag fill={playing ? "gray" : "green"} color='green' />
         </div>
         {history.length > 0 && (
-          <div onClick={undoAction} title='Undo' className='cursor-pointer'>
+          <div onClick={undoAction} title='Undo' className='cursor-pointer self-center'>
             <Undo2Icon />
           </div>
         )}
-        <div onClick={reset} title='Reset' className='cursor-pointer'>
+        <div onClick={reset} title='Reset' className='cursor-pointer self-center'>
           <RotateCcw />
+        </div>
+        <div onClick={()=>  window.location("https://github.com/ksanjeeb/MIT-Scratch-Blockly","_blank")} title='Get the code!' className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'>
+          <Github  />
         </div>
       </div>
       <Draggable className="h-[calc(100vh_-_4rem)] overflow-y-auto p-2 relative border">
