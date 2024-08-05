@@ -10,6 +10,7 @@ export default function CatSprite({ showTooltip, tooltipText, animation, size = 
         viewBox="0.3210171699523926 0.3000000357627869 95.17898101806641 100.04156036376953"
         version="1.1"
         xmlSpace="preserve"
+        id="sprite"
       >
         <g>
           <g id="Page-1" stroke="none" fillRule="evenodd">

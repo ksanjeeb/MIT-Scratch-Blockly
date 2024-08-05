@@ -1,8 +1,9 @@
-import { useState, useContext, useEffect, useCallback } from 'react';
+import { useState, useContext, useEffect, useCallback, useRef } from 'react';
 import CatSprite from './CatSprite';
 import Draggable from 'react-draggable';
 import { Flag, Github, RotateCcw, Undo2Icon } from 'lucide-react';
 import { GlobalContext } from '../App';
+import { throttle } from 'lodash';
 
 export default function PreviewArea() {
   const { data } = useContext(GlobalContext);
@@ -13,30 +14,31 @@ export default function PreviewArea() {
   const [size, setSize] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [history, setHistory] = useState([]);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mousePositionRef = useRef({ x: 0, y: 0 });
 
   const pointTowardsMouse = () => {
-    const deltaX = mousePosition.x - position.x;
-    const deltaY = mousePosition.y - position.y;
-    console.log(mousePosition,position)
+    const rect = document.getElementById("sprite").getBoundingClientRect();
+    const svgCenterX = rect.left + rect.width / 2;
+    const svgCenterY = rect.top + rect.height / 2;
+  
+    const deltaX = mousePositionRef.current.x - svgCenterX;
+    const deltaY = mousePositionRef.current.y - svgCenterY;
     let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
     if (angle < 0) {
       angle += 360;
     }
-    console.log(angle)
     return angle;
   };
-
+  
   const startAnimation = useCallback((event_type = 'when_flag_clicked') => {
     if (data && data.length > 0) {
       const actions = data.filter(action => action.type === event_type);
       if (actions.length > 0) {
-        setHistory((prev) => [...prev, { position, rotation, size, text }]);
-        actions.forEach((action) => executeAction(action));
+        setHistory(prev => [...prev, { position, rotation, size, text }]);
+        actions.forEach(action => executeAction(action));
       }
     }
   }, [data, position, rotation, size, text]);
-
 
   const executeAction = (action) => {
     const { type, fields, next } = action;
@@ -67,9 +69,8 @@ export default function PreviewArea() {
         break;
       case 'point_towards':
         if (fields.target === 'MOUSE_POINTER') {
-          let angle = pointTowardsMouse();
-          setAnimation(null)
-          setRotation(angle);
+          setRotation(pointTowardsMouse());
+          setAnimation(null);
         }
         break;
       case 'move':
@@ -133,20 +134,21 @@ export default function PreviewArea() {
     setText({ message: '', duration: 0, animation: false });
     setHistory([]);
     setPlaying(false);
+    setAnimation(null);
   };
 
-  // useEffect(()=>{
-  //   console.log('Angle towards mouse:', angle);  
-  // }, [mousePosition])
+  // const stop = () => { // This logic is not working as expected
+  //   setPlaying(false);
+  //   setAnimation(null);
+  // };
+
+
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
-      setMousePosition({
-        x: event.clientX,
-        y: event.clientY
-      });
-    };
-    
+
+    const handleMouseMove = throttle((event) => {
+      mousePositionRef.current = { x: event.clientX, y: event.clientY };
+    }, 200);
 
     const handleKeyDown = (event) => {
       if (event.code === 'Space') {
@@ -166,19 +168,41 @@ export default function PreviewArea() {
   return (
     <div className="flex-none w-full">
       <div className="flex flex-row p-4 gap-4 justify-end pr-6">
-        <div onClick={() => startAnimation("when_flag_clicked")} title={"Run"} className={`cursor-pointer self-center ${playing ? "pointer-events-none" : ""}`}>
+        <div
+          onClick={() => startAnimation("when_flag_clicked")}
+          title={"Run"}
+          className={`cursor-pointer self-center ${playing ? "pointer-events-none" : ""}`}
+        >
           <Flag fill={playing ? "gray" : "green"} color='green' />
         </div>
         {history.length > 0 && (
-          <div onClick={undoAction} title='Undo' className='cursor-pointer self-center'>
+          <div
+            onClick={undoAction}
+            title='Undo'
+            className='cursor-pointer self-center'
+          >
             <Undo2Icon />
           </div>
         )}
-        <div onClick={reset} title='Reset' className='cursor-pointer self-center'>
+        <div
+          onClick={reset}
+          title='Reset'
+          className='cursor-pointer self-center'
+        >
           <RotateCcw />
         </div>
-        <div onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
-          title='Get the code!' className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'>
+        {/* <div
+          onClick={stop}
+          title='Stop'
+          className='cursor-pointer self-center'
+        >
+          <StopCircle />
+        </div> */}
+        <div
+          onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
+          title='Get the code!'
+          className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'
+        >
           <Github />
         </div>
       </div>
@@ -192,7 +216,13 @@ export default function PreviewArea() {
           }}
           onClick={() => startAnimation("when_sprite_clicked")}
         >
-          <CatSprite id="my-svg" style={{ transform: `rotate(${rotation}deg)` }} size={size} tooltipText={text.message} showTooltip={text.duration > 0} animation={text?.animation} />
+          <CatSprite
+            style={{ transform: `rotate(${rotation}deg)` }}
+            size={size}
+            tooltipText={text.message}
+            showTooltip={text.duration > 0}
+            animation={text?.animation}
+          />
         </div>
       </Draggable>
     </div>
