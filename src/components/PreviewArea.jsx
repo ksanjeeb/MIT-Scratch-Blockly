@@ -18,10 +18,12 @@ export default function PreviewArea() {
   const pointTowardsMouse = () => {
     const deltaX = mousePosition.x - position.x;
     const deltaY = mousePosition.y - position.y;
+    console.log(mousePosition,position)
     let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
     if (angle < 0) {
       angle += 360;
     }
+    console.log(angle)
     return angle;
   };
 
@@ -133,10 +135,18 @@ export default function PreviewArea() {
     setPlaying(false);
   };
 
+  // useEffect(()=>{
+  //   console.log('Angle towards mouse:', angle);  
+  // }, [mousePosition])
+
   useEffect(() => {
     const handleMouseMove = (event) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
+      setMousePosition({
+        x: event.clientX,
+        y: event.clientY
+      });
     };
+    
 
     const handleKeyDown = (event) => {
       if (event.code === 'Space') {
@@ -182,7 +192,7 @@ export default function PreviewArea() {
           }}
           onClick={() => startAnimation("when_sprite_clicked")}
         >
-          <CatSprite style={{ transform: `rotate(${rotation}deg)` }} size={size} tooltipText={text.message} showTooltip={text.duration > 0} animation={text?.animation} />
+          <CatSprite id="my-svg" style={{ transform: `rotate(${rotation}deg)` }} size={size} tooltipText={text.message} showTooltip={text.duration > 0} animation={text?.animation} />
         </div>
       </Draggable>
     </div>
