@@ -167,8 +167,9 @@ export default function PreviewArea() {
         <div onClick={reset} title='Reset' className='cursor-pointer self-center'>
           <RotateCcw />
         </div>
-        <div onClick={()=>  window.location("https://github.com/ksanjeeb/MIT-Scratch-Blockly","_blank")} title='Get the code!' className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'>
-          <Github  />
+        <div onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
+          title='Get the code!' className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'>
+          <Github />
         </div>
       </div>
       <Draggable className="h-[calc(100vh_-_4rem)] overflow-y-auto p-2 relative border">
