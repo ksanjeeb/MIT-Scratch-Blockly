@@ -200,7 +200,7 @@ export default function PreviewArea() {
         </div> */}
         <div
           onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
-          title='Get the code!'
+          title='Get the code! - github.com/ksanjeeb'
           className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'
         >
           <Github />
