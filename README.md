@@ -29,21 +29,21 @@ Ensure you have the following installed:
 
 1. **Clone the Repository**
 
-   ```bash
-   git clone https://github.com/your-username/mit-scratch-clone.git
+```bash
+   git clone https://github.com/ksanjeeb/mit-scratch-clone.git
    cd mit-scratch-clone
-   ```
+```
 
 2. **Install Dependencies & Run**
 
-  ```bash
+```bash
   npm install
-  ```
-  ```bash
+```
+```bash
   npm run dev
-  ```
+```
 
-### Your server will be up and running at localhost:5173
+### Your app will be up and running at localhost:5173
 
 
 For questions or feedback, please reach out at code.sanjeeb@gmail.com.
