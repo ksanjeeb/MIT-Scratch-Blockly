@@ -127,6 +127,8 @@ export default function PreviewArea() {
     }
   };
 
+
+
   const reset = () => {
     setPosition({ x: 0, y: 0 });
     setRotation(0);
@@ -168,6 +170,16 @@ export default function PreviewArea() {
   return (
     <div className="flex-none w-full">
       <div className="flex flex-row p-4 gap-4 justify-end pr-6">
+      {history.length > 0 && (
+          <div
+            onClick={undoAction}
+            title='Undo'
+            className='cursor-pointer self-center flex flex-row gap-1'
+          >
+            <p className='font-semibold'>{history.length}</p >
+            <Undo2Icon />
+          </div>
+        )}
         <div
           onClick={() => startAnimation("when_flag_clicked")}
           title={"Run"}
@@ -175,15 +187,7 @@ export default function PreviewArea() {
         >
           <Flag fill={playing ? "gray" : "green"} color='green' />
         </div>
-        {history.length > 0 && (
-          <div
-            onClick={undoAction}
-            title='Undo'
-            className='cursor-pointer self-center'
-          >
-            <Undo2Icon />
-          </div>
-        )}
+        
         <div
           onClick={reset}
           title='Reset'
