@@ -38,7 +38,7 @@ export default function PreviewArea() {
         actions.forEach(action => executeAction(action));
       }
     }
-  }, [data, position, rotation, size, text]);
+  }, [data, position, rotation, size, text, animation]);
 
   const executeAction = (action) => {
     const { type, fields, next } = action;
@@ -59,10 +59,12 @@ export default function PreviewArea() {
       case 'glide':
         setAnimation({ type: 'glide', duration: fields.seconds * 1000 });
         setPosition({ x: fields.x_position, y: fields.y_position });
+        setTimeout(()=>{setAnimation(null)}, fields.seconds * 1000)
         break;
       case 'glide_random':
         setAnimation({ type: 'glide', duration: fields.seconds * 1000 });
         setPosition({ x: Math.random() * 400, y: Math.random() * 400 });
+        setTimeout(()=>{setAnimation(null)}, fields.seconds * 1000)
         break;
       case 'point_in_direction':
         setRotation(fields.direction);
