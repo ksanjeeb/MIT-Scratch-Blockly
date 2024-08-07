@@ -175,7 +175,7 @@ export default function PreviewArea() {
         <div className='h-8 w-20 flex items-center justify-center'>
           <img src='/scratch.png' alt="Scratch Logo" className='h-full w-full object-contain' />
         </div>
-        <div className='flex flex-row gap-4 justify-end'>
+        <div className='flex flex-row gap-4 justify-end z-10'>
           {history.length > 0 && (
             <div
               onClick={undoAction}
