@@ -171,49 +171,52 @@ export default function PreviewArea() {
 
   return (
     <div className="flex-none w-full">
-      <div className="flex flex-row p-4 gap-4 justify-end pr-6">
+      <div className="flex flex-row p-4 gap-4 justify-between pr-6">
         <div className='h-8 w-20 flex items-center justify-center'>
           <img src='/scratch.png' alt="Scratch Logo" className='h-full w-full object-contain' />
         </div>
-        {history.length > 0 && (
+        <div className='flex flex-row gap-4 justify-end'>
+          {history.length > 0 && (
+            <div
+              onClick={undoAction}
+              title='Undo'
+              className='cursor-pointer self-center flex flex-row gap-1'
+            >
+              <p className='font-semibold'>{history.length}</p >
+              <Undo2Icon />
+            </div>
+          )}
           <div
-            onClick={undoAction}
-            title='Undo'
-            className='cursor-pointer self-center flex flex-row gap-1'
+            onClick={() => startAnimation("when_flag_clicked")}
+            title={"Run"}
+            className={`cursor-pointer self-center ${playing ? "pointer-events-none" : ""}`}
           >
-            <p className='font-semibold'>{history.length}</p >
-            <Undo2Icon />
+            <Flag fill={playing ? "gray" : "green"} color='green' />
           </div>
-        )}
-        <div
-          onClick={() => startAnimation("when_flag_clicked")}
-          title={"Run"}
-          className={`cursor-pointer self-center ${playing ? "pointer-events-none" : ""}`}
-        >
-          <Flag fill={playing ? "gray" : "green"} color='green' />
-        </div>
 
-        <div
-          onClick={reset}
-          title='Reset'
-          className='cursor-pointer self-center'
-        >
-          <RotateCcw />
-        </div>
-        {/* <div
+          <div
+            onClick={reset}
+            title='Reset'
+            className='cursor-pointer self-center'
+          >
+            <RotateCcw />
+          </div>
+          {/* <div
           onClick={stop}
           title='Stop'
           className='cursor-pointer self-center'
         >
           <StopCircle />
         </div> */}
-        <div
-          onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
-          title='Get the code! - github.com/ksanjeeb'
-          className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'
-        >
-          <Github />
+          <div
+            onClick={() => window.open("https://github.com/ksanjeeb/MIT-Scratch-Blockly", "_blank")}
+            title='Get the code! - github.com/ksanjeeb'
+            className='cursor-pointer ml-1 bg-gray-200 rounded-xl p-1'
+          >
+            <Github />
+          </div>
         </div>
+
       </div>
       <Draggable className="h-[calc(100vh_-_4rem)] overflow-y-auto p-2 relative border">
         <div
