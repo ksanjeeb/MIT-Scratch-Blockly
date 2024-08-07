@@ -20,7 +20,7 @@ export default function PreviewArea() {
     const rect = document.getElementById("sprite").getBoundingClientRect();
     const svgCenterX = rect.left + rect.width / 2;
     const svgCenterY = rect.top + rect.height / 2;
-  
+
     const deltaX = mousePositionRef.current.x - svgCenterX;
     const deltaY = mousePositionRef.current.y - svgCenterY;
     let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
@@ -29,7 +29,7 @@ export default function PreviewArea() {
     }
     return angle;
   };
-  
+
   const startAnimation = useCallback((event_type = 'when_flag_clicked') => {
     if (data && data.length > 0) {
       const actions = data.filter(action => action.type === event_type);
@@ -59,12 +59,12 @@ export default function PreviewArea() {
       case 'glide':
         setAnimation({ type: 'glide', duration: fields.seconds * 1000 });
         setPosition({ x: fields.x_position, y: fields.y_position });
-        setTimeout(()=>{setAnimation(null)}, fields.seconds * 1000)
+        setTimeout(() => { setAnimation(null) }, fields.seconds * 1000)
         break;
       case 'glide_random':
         setAnimation({ type: 'glide', duration: fields.seconds * 1000 });
         setPosition({ x: Math.random() * 400, y: Math.random() * 400 });
-        setTimeout(()=>{setAnimation(null)}, fields.seconds * 1000)
+        setTimeout(() => { setAnimation(null) }, fields.seconds * 1000)
         break;
       case 'point_in_direction':
         setRotation(fields.direction);
@@ -172,7 +172,10 @@ export default function PreviewArea() {
   return (
     <div className="flex-none w-full">
       <div className="flex flex-row p-4 gap-4 justify-end pr-6">
-      {history.length > 0 && (
+        <div className='h-8 w-20 flex items-center justify-center'>
+          <img src='/scratch.png' alt="Scratch Logo" className='h-full w-full object-contain' />
+        </div>
+        {history.length > 0 && (
           <div
             onClick={undoAction}
             title='Undo'
@@ -189,7 +192,7 @@ export default function PreviewArea() {
         >
           <Flag fill={playing ? "gray" : "green"} color='green' />
         </div>
-        
+
         <div
           onClick={reset}
           title='Reset'
